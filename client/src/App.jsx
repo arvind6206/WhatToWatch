@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import SearchBar from './components/SearchBar'
 import MovieCard from './components/MovieCard'
 import MovieList from './components/MovieList'
+import Footer from './components/Footer'
 
 function App() {
     const movies = [
@@ -191,24 +192,53 @@ function App() {
   const [searchInput, setSearchInput] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
 
+  const [showAllMovies, setShowAllMovies] = useState(false)
+
+
+  function handleClipboard(){
+    setShowAllMovies(true)
+  }
+
 const handleSearch = () => {
   setSearchQuery(searchInput);
+  setShowAllMovies(false)
 };
 
 const filteredMovies = movies.filter(
   (movie) => movie.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
-  return (
-    <>
-      <Navbar/>
-      <SearchBar 
+  const displayedMovies = showAllMovies ? movies : filteredMovies
+
+
+ return (
+  <div className="min-h-screen bg-gradient-to-br from-slate-900 via-gray-900 to-black flex flex-col">
+    <Navbar handleClipboard={handleClipboard} />
+
+    <SearchBar
       searchInput={searchInput}
       setSearchInput={setSearchInput}
-      handleSearch={handleSearch}/>
-      <MovieList movies={filteredMovies}/>
-     
-    </>
-  )
+      handleSearch={handleSearch}
+    />
+
+    <div className="max-w-7xl mx-auto px-6 py-8 flex-grow">
+      {displayedMovies.length > 0 ? (
+        <MovieList movies={displayedMovies} />
+      ) : (
+        <div className="flex flex-col items-center justify-center mt-20">
+          <h2 className="text-3xl font-bold text-white">
+            No Movies Found 🎬
+          </h2>
+
+          <p className="text-gray-400 mt-2">
+            Try searching for another movie.
+          </p>
+        </div>
+      )}
+    </div>
+
+    <Footer />
+  </div>
+);
 }
 
 export default App
