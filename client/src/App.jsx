@@ -5,7 +5,6 @@ import MovieCard from './components/MovieCard'
 import MovieList from './components/MovieList'
 
 function App() {
-  const [search, setSearch] = useState("")
     const movies = [
   {
     title: "Jack Reacher",
@@ -189,14 +188,23 @@ function App() {
   }
 ];
 
-const filteredMovies = movies.filter((movie) => movie.title.toLowerCase().includes(search.toLowerCase()))
+  const [searchInput, setSearchInput] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
+
+const handleSearch = () => {
+  setSearchQuery(searchInput);
+};
+
+const filteredMovies = movies.filter(
+  (movie) => movie.title.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
     <>
       <Navbar/>
       <SearchBar 
-      search={search}
-      setSearch={setSearch}/>
+      searchInput={searchInput}
+      setSearchInput={setSearchInput}
+      handleSearch={handleSearch}/>
       <MovieList movies={filteredMovies}/>
      
     </>
