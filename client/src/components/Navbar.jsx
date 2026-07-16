@@ -1,7 +1,8 @@
 import React from "react";
-import { Clapperboard } from "lucide-react";
+import { Clapperboard, Moon } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
-function Navbar({handleClipboard}) {
+function Navbar({handleClipboard, darkMode, setDarkMode}) {
     
   return (
     <nav className="bg-gradient-to-r from-gray-900 via-black to-gray-900 shadow-lg">
@@ -26,10 +27,12 @@ function Navbar({handleClipboard}) {
         </div>
 
         {/* Right Side */}
-        <div>
+        <div className='flex items-center gap-6'>
           <button className="bg-yellow-400 text-black px-5 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
             Explore
           </button>
+
+        <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode}/>
         </div>
 
       </div>
