@@ -1,6 +1,6 @@
 import React from "react";
 
-function MovieCard({ title, year, type, poster }) {
+function MovieCard({ title, year, type, poster}) {
   return (
     <div
       className="
