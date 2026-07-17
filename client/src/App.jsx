@@ -58,6 +58,7 @@ function App() {
   const displayedMovies = movies;
 
   return (
+    
     <div
       className={`min-h-screen flex flex-col transition-all duration-300 ${
         darkMode
@@ -65,6 +66,7 @@ function App() {
           : "bg-gradient-to-br from-slate-100 via-white to-gray-200 text-black"
       }`}
     >
+
       <Navbar
         handleClipboard={handleClipboard}
         darkMode={darkMode}
