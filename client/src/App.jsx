@@ -4,6 +4,7 @@ import SearchBar from "./components/SearchBar";
 import MovieList from "./components/MovieList";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import Pagination from "./components/Pagination";
 
 function App() {
   const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
@@ -15,8 +16,10 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const [showAllMovies, setShowAllMovies] = useState(false);
+  const [page, setPage] = useState(1)
+  const [totalResults, setTotalResults] = useState(0)
 
-  const url = `https://www.omdbapi.com/?s=${searchQuery || "Batman"}&apikey=${API_KEY}&page=2`;
+  const url = `https://www.omdbapi.com/?s=${searchQuery || "Batman"}&apikey=${API_KEY}&page=${page}`;
 
   useEffect(() => {
     async function fetchMovies() {
@@ -24,6 +27,7 @@ function App() {
         setLoading(true);
         const response = await fetch(url);
         const data = await response.json();
+        setTotalResults(Number(data.totalResults) || 0)
 
         const formattedMovies = (data.Search || []).map((movie) => ({
           title: movie.Title,
@@ -39,16 +43,17 @@ function App() {
       }
     }
     fetchMovies();
-  }, [searchQuery]);
+  }, [searchQuery, page]);
 
   function handleClipboard() {
     setShowAllMovies(true);
   }
 
   const handleSearch = () => {
-    setSearchQuery(searchInput);
-    setShowAllMovies(false);
-  };
+  setSearchQuery(searchInput);
+  setPage(1);
+  setShowAllMovies(false);
+};
 
   const displayedMovies = movies;
 
@@ -91,6 +96,15 @@ function App() {
           </p>
         </div>
       )}
+
+      {!loading && displayedMovies.length > 0 && (
+  <Pagination
+    page={page}
+    setPage={setPage}
+    totalResults={totalResults}
+    darkMode={darkMode}
+  />
+)}
 
       <Footer darkMode={darkMode} />
     </div>
